@@ -5,37 +5,24 @@
 #pragma comment(lib,"graphics.lib")
 
 #include "Corners.h"
-
 #define SIZE_OF_WINDOW 720 //Размер окна
-
 using namespace std;
-
 
 int main(void)
 {
 	initwindow(SIZE_OF_WINDOW, SIZE_OF_WINDOW);
 
-	
 	while (1)
 	{
 		float SHIFT = 5;// Коэффициент сдвиг
 		float Scaling = 1.015;	// Коэффициент маштабирования
 		float Turn = 0.025;	// Угол в радианах на который вращаем
-		float xc, yc;	// средний х, y
+		float xc, yc;	// средний х, z
 
-		//float Xc, Yc;	// средний y
-
-		Corners A(260, 240);
-		Corners B(460, 570);
-		Corners C(160, 570);
-		Corners D(310, 670);
-
-		//int iw = 2;
-		//iw = 3;
-		//iw = 4;
-		//iw = 5;
-		//iw = 6;
-		//iw = 7;
+		Corners A(260, 240, 250);
+		Corners B(460, 570, 150);
+		Corners C(160, 570, 150);
+		Corners D(310, 670, 350);
 
 		/*float FIG[3][3] = { {A.x, A.y, 1}, {B.x, B.y, 1}, {C.x, C.y, 1} };
 
@@ -66,30 +53,31 @@ int main(void)
 		{
 			switch (BUTTON)
 			{
-			//case -32:	// сдвиг
+			
+			// сдвиг
 			{
-			case 'w':	// вверх
+			case 72:	// вверх
 				A.y -= 5;
 				B.y -= 5;
 				C.y -= 5;
 				D.y -= 5;
 				break;
 
-			case 's':	// вниз
+			case 80:	// вниз
 				A.y += 5;
 				B.y += 5;
 				C.y += 5;
 				D.y += 5;
 				break;
 
-			case 'a':	// влево
+			case 75:	// влево
 				A.x -= 5;
 				B.x -= 5;
 				C.x -= 5;
 				D.x -= 5;
 				break;
 
-			case 'd':	// вправо
+			case 77:	// вправо
 				A.x += 5;
 				B.x += 5;
 				C.x += 5;
@@ -102,67 +90,39 @@ int main(void)
 			// поворот
 			{
 			case 'q':
-				xc = (A.x + B.x + C.x + D.x) / 4;
-				yc = (A.y + B.y + C.y + D.y) / 4;
-				A.x -= xc;
-				A.y -= yc;
-				B.x -= xc;
-				B.y -= yc;
-				C.x -= xc;
-				C.y -= yc;
-				D.x -= xc;
-				D.y -= yc;
-
-				A.x = ((A.x * cos(-Turn)) - (A.y * sin(-Turn))) * 1.0003125;
-				A.y = ((A.x * sin(-Turn)) + (A.y * cos(-Turn))) * 1.0003125;
-				B.x = ((B.x * cos(-Turn)) - (B.y * sin(-Turn))) * 1.0003125;
-				B.y = ((B.x * sin(-Turn)) + (B.y * cos(-Turn))) * 1.0003125;
-				C.x = ((C.x * cos(-Turn)) - (C.y * sin(-Turn))) * 1.0003125;
-				C.y = ((C.x * sin(-Turn)) + (C.y * cos(-Turn))) * 1.0003125;
-				D.x = ((D.x * cos(-Turn)) - (D.y * sin(-Turn))) * 1.0003125;
-				D.y = ((D.x * sin(-Turn)) + (D.y * cos(-Turn))) * 1.0003125;
-
-				A.x += xc;
-				A.y += yc;
-				B.x += xc;
-				B.y += yc;
-				C.x += xc;
-				C.y += yc;
-				D.x += xc;
-				D.y += yc;
-
+				
+				Turn *= -1;
+				FOO2(A, B, C, D, Turn);
+				Turn *= -1;
 				break;
 
-			case 'e':
-				xc = (A.x + B.x + C.x + D.x) / 4;
-				yc = (A.y + B.y + C.y + D.y) / 4;
-				A.x -= xc;
-				A.y -= yc;
-				B.x -= xc;
-				B.y -= yc;
-				C.x -= xc;
-				C.y -= yc;
-				D.x -= xc;
-				D.y -= yc;
+			case 'w':
 
-				A.x = ((A.x * cos(Turn)) - (A.y * sin(Turn))) * 1.0003125;
-				A.y = ((A.x * sin(Turn)) + (A.y * cos(Turn))) * 1.0003125;
-				B.x = ((B.x * cos(Turn)) - (B.y * sin(Turn))) * 1.0003125;
-				B.y = ((B.x * sin(Turn)) + (B.y * cos(Turn))) * 1.0003125;
-				C.x = ((C.x * cos(Turn)) - (C.y * sin(Turn))) * 1.0003125;
-				C.y = ((C.x * sin(Turn)) + (C.y * cos(Turn))) * 1.0003125;
-				D.x = ((D.x * cos(Turn)) - (D.y * sin(Turn))) * 1.0003125;
-				D.y = ((D.x * sin(Turn)) + (D.y * cos(Turn))) * 1.0003125;
+				FOO2(A, B, C, D, Turn);
+				break;
 
-				A.x += xc;
-				A.y += yc;
-				B.x += xc;
-				B.y += yc;
-				C.x += xc;
-				C.y += yc;
-				D.x += xc;
-				D.y += yc;
+			case 'a':
 
+				Turn *= -1;
+				FOO3(A, B, C, D, Turn);
+				Turn *= -1;
+				break;
+
+			case 's':
+
+				FOO3(A, B, C, D, Turn);
+				break;
+
+			case 'z':
+
+				Turn *= -1;
+				FOO4(A, B, C, D, Turn);
+				Turn *= -1;
+				break;
+
+			case 'x':
+
+				FOO4(A, B, C, D, Turn);
 				break;
 			}
 
@@ -242,6 +202,7 @@ int main(void)
 
 			// закраска
 			//FOO(A, B, C);
+
 			setcolor(RGB(255, 255, 255));
 			line(A.x, A.y, B.x, B.y);
 			setcolor(RGB(255, 255, 255));
@@ -370,3 +331,104 @@ void FOO(Corners& A, Corners& B, Corners& C)
 	}
 }
 
+void FOO2(Corners& A, Corners& B, Corners& C, Corners& D, float& Turn)
+{
+	float xc, yc;	// средний х, y
+
+	xc = (A.x + B.x + C.x + D.x) / 4;
+	yc = (A.y + B.y + C.y + D.y) / 4;
+	A.x -= xc;
+	A.y -= yc;
+	B.x -= xc;
+	B.y -= yc;
+	C.x -= xc;
+	C.y -= yc;
+	D.x -= xc;
+	D.y -= yc;
+
+	A.x = ((A.x * cos(-Turn)) - (A.y * sin(-Turn))) * 1.0003125;
+	A.y = ((A.x * sin(-Turn)) + (A.y * cos(-Turn))) * 1.0003125;
+	B.x = ((B.x * cos(-Turn)) - (B.y * sin(-Turn))) * 1.0003125;
+	B.y = ((B.x * sin(-Turn)) + (B.y * cos(-Turn))) * 1.0003125;
+	C.x = ((C.x * cos(-Turn)) - (C.y * sin(-Turn))) * 1.0003125;
+	C.y = ((C.x * sin(-Turn)) + (C.y * cos(-Turn))) * 1.0003125;
+	D.x = ((D.x * cos(-Turn)) - (D.y * sin(-Turn))) * 1.0003125;
+	D.y = ((D.x * sin(-Turn)) + (D.y * cos(-Turn))) * 1.0003125;
+
+	A.x += xc;
+	A.y += yc;
+	B.x += xc;
+	B.y += yc;
+	C.x += xc;
+	C.y += yc;
+	D.x += xc;
+	D.y += yc;
+}
+
+void FOO3(Corners& A, Corners& B, Corners& C, Corners& D, float& Turn)
+{
+	float zc, yc;	// средний z, y
+
+	zc = (A.z + B.z + C.z + D.z) / 4;
+	yc = (A.y + B.y + C.y + D.y) / 4;
+	A.z -= zc;
+	A.y -= yc;
+	B.z -= zc;
+	B.y -= yc;
+	C.z -= zc;
+	C.y -= yc;
+	D.z -= zc;
+	D.y -= yc;
+
+	A.z = ((A.z * cos(Turn)) - (A.y * sin(Turn))) * 1.0003125;
+	A.y = ((A.z * sin(Turn)) + (A.y * cos(Turn))) * 1.0003125;
+	B.z = ((B.z * cos(Turn)) - (B.y * sin(Turn))) * 1.0003125;
+	B.y = ((B.z * sin(Turn)) + (B.y * cos(Turn))) * 1.0003125;
+	C.z = ((C.z * cos(Turn)) - (C.y * sin(Turn))) * 1.0003125;
+	C.y = ((C.z * sin(Turn)) + (C.y * cos(Turn))) * 1.0003125;
+	D.z = ((D.z * cos(Turn)) - (D.y * sin(Turn))) * 1.0003125;
+	D.y = ((D.z * sin(Turn)) + (D.y * cos(Turn))) * 1.0003125;
+
+	A.z += zc;
+	A.y += yc;
+	B.z += zc;
+	B.y += yc;
+	C.z += zc;
+	C.y += yc;
+	D.z += zc;
+	D.y += yc;
+}
+
+void FOO4(Corners& A, Corners& B, Corners& C, Corners& D, float& Turn)
+{
+	float xc, zc;	// средний х, z
+
+	xc = (A.x + B.x + C.x + D.x) / 4;
+	zc = (A.z + B.z + C.z + D.z) / 4;
+	A.x -= xc;
+	A.z -= zc;
+	B.x -= xc;
+	B.z -= zc;
+	C.x -= xc;
+	C.z -= zc;
+	D.x -= xc;
+	D.z -= zc;
+
+	A.x = ((A.x * cos(-Turn)) - (A.z * sin(-Turn))) * 1.0003125;
+	A.z = ((A.x * sin(-Turn)) + (A.z * cos(-Turn))) * 1.0003125;
+	B.x = ((B.x * cos(-Turn)) - (B.z * sin(-Turn))) * 1.0003125;
+	B.z = ((B.x * sin(-Turn)) + (B.z * cos(-Turn))) * 1.0003125;
+	C.x = ((C.x * cos(-Turn)) - (C.z * sin(-Turn))) * 1.0003125;
+	C.z = ((C.x * sin(-Turn)) + (C.z * cos(-Turn))) * 1.0003125;
+	D.x = ((D.x * cos(-Turn)) - (D.z * sin(-Turn))) * 1.0003125;
+	D.z = ((D.x * sin(-Turn)) + (D.z * cos(-Turn))) * 1.0003125;
+
+	A.x += xc;
+	A.z += zc;
+	B.x += xc;
+	B.z += zc;
+	C.x += xc;
+	C.z += zc;
+	D.x += xc;
+	D.z += zc;
+}
